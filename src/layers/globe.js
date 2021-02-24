@@ -33,15 +33,12 @@ import { GLOBE_RADIUS } from '../constants';
 
 export default Kapsule({
   props: {
+    setResolution: {},
     globeImageUrl: {},
-    bumpImageUrl: {},
     showGlobe: { default: true, onChange(showGlobe, state) { state.globeObj.visible = !!showGlobe }, triggerUpdate: false },
     showAtmosphere: { default: true, onChange(showAtmosphere, state) { state.atmosphereObj.visible = !!showAtmosphere }, triggerUpdate: false },
     showGraticules: { default: false, onChange(showGraticules, state) { state.graticulesObj.visible = !!showGraticules }, triggerUpdate: false },
     onReady: { default: () => {}, triggerUpdate: false }
-  },
-  methods: {
-    globeMaterial: state => state.globeObj.material
   },
 
   stateInit: () => {
@@ -103,18 +100,6 @@ export default Kapsule({
 
           // ready when first globe image finishes loading (asynchronously to allow 1 frame to load texture)
           !state.ready && (state.ready = true) && setTimeout(state.onReady);
-        });
-      }
-    }
-
-    if (changedProps.hasOwnProperty('bumpImageUrl')) {
-      if (!state.bumpImageUrl) {
-        globeMaterial.bumpMap = null;
-        globeMaterial.needsUpdate = true;
-      } else {
-        state.bumpImageUrl && new THREE.TextureLoader().load(state.bumpImageUrl, texture => {
-          globeMaterial.bumpMap = texture;
-          globeMaterial.needsUpdate = true;
         });
       }
     }

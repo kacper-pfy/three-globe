@@ -22,42 +22,24 @@ import { polar2Cartesian, cartesian2Polar } from './utils/coordTranslate';
 import GlobeLayerKapsule from './layers/globe';
 import PointsLayerKapsule from './layers/points';
 import ArcsLayerKapsule from './layers/arcs';
-import HexBinLayerKapsule from './layers/hexbin';
-import PolygonsLayerKapsule from './layers/polygons';
-import HexedPolygonsLayerKapsule from './layers/hexedPolygons';
-import PathsLayerKapsule from './layers/paths';
-import TilesLayerKapsule from './layers/tiles';
-import LabelsLayerKapsule from './layers/labels';
-import CustomLayerKapsule from './layers/custom';
 
 //
 
 const layers = [
   'globeLayer',
   'pointsLayer',
-  'arcsLayer',
-  'hexBinLayer',
-  'polygonsLayer',
-  'hexedPolygonsLayer',
-  'pathsLayer',
-  'tilesLayer',
-  'labelsLayer',
-  'customLayer'
+  'arcsLayer'
 ];
 
 // Expose config from layers
 const bindGlobeLayer = linkKapsule('globeLayer', GlobeLayerKapsule);
 const linkedGlobeLayerProps = Object.assign(...[
+  'setResolution',
   'globeImageUrl',
-  'bumpImageUrl',
   'showGlobe',
   'showAtmosphere',
   'showGraticules'
 ].map(p => ({ [p]: bindGlobeLayer.linkProp(p)})));
-
-const linkedGlobeLayerMethods = Object.assign(...[
-  'globeMaterial'
-].map(p => ({ [p]: bindGlobeLayer.linkMethod(p)})))
 
 const bindPointsLayer = linkKapsule('pointsLayer', PointsLayerKapsule);
 const linkedPointsLayerProps = Object.assign(...[
@@ -91,105 +73,6 @@ const linkedArcsLayerProps = Object.assign(...[
   'arcDashAnimateTime',
   'arcsTransitionDuration'
 ].map(p => ({ [p]: bindArcsLayer.linkProp(p)})));
-
-const bindHexBinLayer = linkKapsule('hexBinLayer', HexBinLayerKapsule);
-const linkedHexBinLayerProps = Object.assign(...[
-  'hexBinPointsData',
-  'hexBinPointLat',
-  'hexBinPointLng',
-  'hexBinPointWeight',
-  'hexBinResolution',
-  'hexMargin',
-  'hexTopCurvatureResolution',
-  'hexTopColor',
-  'hexSideColor',
-  'hexAltitude',
-  'hexBinMerge',
-  'hexTransitionDuration'
-].map(p => ({ [p]: bindHexBinLayer.linkProp(p)})));
-
-const bindHexedPolygonsLayer = linkKapsule('hexedPolygonsLayer', HexedPolygonsLayerKapsule);
-const linkedHexedPolygonsLayerProps = Object.assign(...[
-  'hexPolygonsData',
-  'hexPolygonGeoJsonGeometry',
-  'hexPolygonColor',
-  'hexPolygonAltitude',
-  'hexPolygonResolution',
-  'hexPolygonMargin',
-  'hexPolygonCurvatureResolution',
-  'hexPolygonsTransitionDuration'
-].map(p => ({ [p]: bindHexedPolygonsLayer.linkProp(p)})));
-
-const bindPolygonsLayer = linkKapsule('polygonsLayer', PolygonsLayerKapsule);
-const linkedPolygonsLayerProps = Object.assign(...[
-  'polygonsData',
-  'polygonGeoJsonGeometry',
-  'polygonCapColor',
-  'polygonCapMaterial',
-  'polygonSideColor',
-  'polygonSideMaterial',
-  'polygonStrokeColor',
-  'polygonAltitude',
-  'polygonCapCurvatureResolution',
-  'polygonsTransitionDuration'
-].map(p => ({ [p]: bindPolygonsLayer.linkProp(p)})));
-
-const bindPathsLayer = linkKapsule('pathsLayer', PathsLayerKapsule);
-const linkedPathsLayerProps = Object.assign(...[
-  'pathsData',
-  'pathPoints',
-  'pathPointLat',
-  'pathPointLng',
-  'pathPointAlt',
-  'pathResolution',
-  'pathColor',
-  'pathStroke',
-  'pathDashLength',
-  'pathDashGap',
-  'pathDashInitialGap',
-  'pathDashAnimateTime',
-  'pathTransitionDuration'
-].map(p => ({ [p]: bindPathsLayer.linkProp(p)})));
-
-const bindTilesLayer = linkKapsule('tilesLayer', TilesLayerKapsule);
-const linkedTilesLayerProps = Object.assign(...[
-  'tilesData',
-  'tileLat',
-  'tileLng',
-  'tileAltitude',
-  'tileWidth',
-  'tileHeight',
-  'tileUseGlobeProjection',
-  'tileMaterial',
-  'tileCurvatureResolution',
-  'tilesTransitionDuration'
-].map(p => ({ [p]: bindTilesLayer.linkProp(p)})));
-
-const bindLabelsLayer = linkKapsule('labelsLayer', LabelsLayerKapsule);
-const linkedLabelsLayerProps = Object.assign(...[
-  'labelsData',
-  'labelLat',
-  'labelLng',
-  'labelAltitude',
-  'labelRotation',
-  'labelText',
-  'labelSize',
-  'labelTypeFace',
-  'labelColor',
-  'labelResolution',
-  'labelIncludeDot',
-  'labelDotRadius',
-  'labelDotOrientation',
-  'labelsTransitionDuration'
-].map(p => ({ [p]: bindLabelsLayer.linkProp(p)})));
-
-const bindCustomLayer = linkKapsule('customLayer', CustomLayerKapsule);
-const linkedCustomLayerProps = Object.assign(...[
-  'customLayerData',
-  'customThreeObject',
-  'customThreeObjectUpdate'
-].map(p => ({ [p]: bindCustomLayer.linkProp(p)})));
-
 //
 
 export default Kapsule({
@@ -203,34 +86,19 @@ export default Kapsule({
     },
     ...linkedGlobeLayerProps,
     ...linkedPointsLayerProps,
-    ...linkedArcsLayerProps,
-    ...linkedHexBinLayerProps,
-    ...linkedPolygonsLayerProps,
-    ...linkedHexedPolygonsLayerProps,
-    ...linkedPathsLayerProps,
-    ...linkedTilesLayerProps,
-    ...linkedLabelsLayerProps,
-    ...linkedCustomLayerProps
+    ...linkedArcsLayerProps
   },
 
   methods: {
     getCoords: (state, ...args) => polar2Cartesian(...args),
-    toGeoCoords: (state, ...args) => cartesian2Polar(...args),
-    ...linkedGlobeLayerMethods
+    toGeoCoords: (state, ...args) => cartesian2Polar(...args)
   },
 
   stateInit: () => {
     return {
       globeLayer: GlobeLayerKapsule(),
       pointsLayer: PointsLayerKapsule(),
-      arcsLayer: ArcsLayerKapsule(),
-      hexBinLayer: HexBinLayerKapsule(),
-      polygonsLayer: PolygonsLayerKapsule(),
-      hexedPolygonsLayer: HexedPolygonsLayerKapsule(),
-      pathsLayer: PathsLayerKapsule(),
-      tilesLayer: TilesLayerKapsule(),
-      labelsLayer: LabelsLayerKapsule(),
-      customLayer: CustomLayerKapsule()
+      arcsLayer: ArcsLayerKapsule()
     }
   },
 
