@@ -27,13 +27,12 @@ import Kapsule from 'kapsule';
 import { geoGraticule10 } from 'd3-geo';
 
 import { emptyObject } from '../utils/gc';
-import { GLOBE_RADIUS } from '../constants';
+import { GLOBE_RADIUS, GLOBE_RESOLUTION } from '../constants';
 
 //
 
 export default Kapsule({
   props: {
-    setResolution: {},
     globeImageUrl: {},
     showGlobe: { default: true, onChange(showGlobe, state) { state.globeObj.visible = !!showGlobe }, triggerUpdate: false },
     showAtmosphere: { default: true, onChange(showAtmosphere, state) { state.atmosphereObj.visible = !!showAtmosphere }, triggerUpdate: false },
@@ -43,7 +42,7 @@ export default Kapsule({
 
   stateInit: () => {
     // create globe
-    const globeGeometry = new THREE.SphereBufferGeometry(GLOBE_RADIUS, 75, 75);
+    const globeGeometry = new THREE.SphereBufferGeometry(GLOBE_RADIUS, GLOBE_RESOLUTION, GLOBE_RESOLUTION);
     const globeObj = new THREE.Mesh(globeGeometry, new THREE.MeshPhongMaterial({ color: 0x000000, transparent: true }));
     globeObj.rotation.y = -Math.PI / 2; // face prime meridian along Z axis
     globeObj.__globeObjType = 'globe'; // Add object type

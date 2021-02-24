@@ -34,7 +34,6 @@ const layers = [
 // Expose config from layers
 const bindGlobeLayer = linkKapsule('globeLayer', GlobeLayerKapsule);
 const linkedGlobeLayerProps = Object.assign(...[
-  'setResolution',
   'globeImageUrl',
   'showGlobe',
   'showAtmosphere',

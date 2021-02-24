@@ -19,7 +19,6 @@ export declare class ThreeGlobeGeneric<ChainableInstance> extends Object3D {
   constructor(configOptions?: ConfigOptions);
 
   // Globe layer
-  setResolution(resolution: number): ChainableInstance;
   globeImageUrl(): string | null;
   globeImageUrl(url: string): ChainableInstance;
   showGlobe(): boolean;
