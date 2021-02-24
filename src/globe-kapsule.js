@@ -78,9 +78,7 @@ export default Kapsule({
   props: {
     rendererSize: {
       default: new THREE.Vector2(window.innerWidth, window.innerHeight),
-      onChange(rendererSize, state) {
-        state.pathsLayer.rendererSize(rendererSize);
-      },
+      onChange(rendererSize, state) {},
       triggerUpdate: false
     },
     ...linkedGlobeLayerProps,
